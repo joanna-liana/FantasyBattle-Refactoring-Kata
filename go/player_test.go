@@ -9,7 +9,7 @@ func TestDamageCalculations(t *testing.T) {
 		// given
 		item := MakeBasicItem("test", 10, 1.2)
 		inventory := MakeInventory(MakeEquipment(item, item, item, item, item))
-		stats := MakeStats(0)
+		stats := MakeStats(50)
 
 		target := MakeSimpleEnemy(MakeSimpleArmor(2), []Buff{MakeBasicBuff(2.20, 40)})
 		player := MakePlayer(inventory, stats)
@@ -18,7 +18,7 @@ func TestDamageCalculations(t *testing.T) {
 		damage := player.CalculateDamage(target)
 
 		// then
-		want := int32(294)
+		want := int32(544)
 		got := damage.GetAmount()
 
 		if want != got {
@@ -26,11 +26,11 @@ func TestDamageCalculations(t *testing.T) {
 		}
 	})
 
-	t.Skip("high soak", func(t *testing.T) {
+	t.Run("high soak", func(t *testing.T) {
 		// given
 		item := MakeBasicItem("test", 10, 1.2)
 		inventory := MakeInventory(MakeEquipment(item, item, item, item, item))
-		stats := MakeStats(0)
+		stats := MakeStats(50)
 
 		target := MakeSimpleEnemy(MakeSimpleArmor(200), []Buff{MakeBasicBuff(2.20, 40)})
 		player := MakePlayer(inventory, stats)
@@ -51,7 +51,7 @@ func TestDamageCalculations(t *testing.T) {
 		// given
 		item := MakeBasicItem("test", 10, 1.2)
 		inventory := MakeInventory(MakeEquipment(item, item, item, item, item))
-		stats := MakeStats(0)
+		stats := MakeStats(50)
 
 		target := MakePlayer(inventory, stats)
 		player := MakePlayer(inventory, stats)
