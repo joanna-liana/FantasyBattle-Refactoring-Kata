@@ -29,3 +29,31 @@ func (e Equipment) GetFeet() Item {
 func (e Equipment) GetChest() Item {
 	return e.chest
 }
+
+func (e Equipment) GetBaseDamage() int32 {
+	leftHand := e.GetLeftHand()
+	rightHand := e.GetRightHand()
+	head := e.GetHead()
+	feet := e.GetFeet()
+	chest := e.GetChest()
+
+	return leftHand.GetBaseDamage() +
+		rightHand.GetBaseDamage() +
+		head.GetBaseDamage() +
+		feet.GetBaseDamage() +
+		chest.GetBaseDamage()
+}
+
+func (e Equipment) GetDamageModifier() float64 {
+	leftHand := e.GetLeftHand()
+	rightHand := e.GetRightHand()
+	head := e.GetHead()
+	feet := e.GetFeet()
+	chest := e.GetChest()
+
+	return leftHand.GetDamageModifier() +
+		rightHand.GetDamageModifier() +
+		head.GetDamageModifier() +
+		feet.GetDamageModifier() +
+		chest.GetDamageModifier()
+}

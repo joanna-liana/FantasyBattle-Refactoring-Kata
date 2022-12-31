@@ -14,8 +14,10 @@ func MakePlayer(inventory Inventory, stats Stats) Player {
 func (p Player) CalculateDamage(other Target) Damage {
 	baseDamage := p.getBaseDamage()
 	damageModifier := p.getDamageModifier()
+
 	totalDamage := int32(math.Round(float64(baseDamage) * damageModifier))
 	soak := p.getSoak(other, totalDamage)
+
 	return MakeDamage(max(0, totalDamage-soak))
 }
 
@@ -50,30 +52,14 @@ func (p Player) getSoak(other Target, totalDamage int32) int32 {
 
 func (p Player) getDamageModifier() float64 {
 	equipment := p.inventory.GetEquipment()
-	leftHand := equipment.GetLeftHand()
-	rightHand := equipment.GetRightHand()
-	head := equipment.GetHead()
-	feet := equipment.GetFeet()
-	chest := equipment.GetChest()
+
 	strengthModifier := float64(p.stats.GetStrength()) * 0.1
-	return strengthModifier +
-		leftHand.GetDamageModifier() +
-		rightHand.GetDamageModifier() +
-		head.GetDamageModifier() +
-		feet.GetDamageModifier() +
-		chest.GetDamageModifier()
+
+	return strengthModifier + equipment.GetDamageModifier()
 }
 
 func (p Player) getBaseDamage() int32 {
 	equipment := p.inventory.GetEquipment()
-	leftHand := equipment.GetLeftHand()
-	rightHand := equipment.GetRightHand()
-	head := equipment.GetHead()
-	feet := equipment.GetFeet()
-	chest := equipment.GetChest()
-	return leftHand.GetBaseDamage() +
-		rightHand.GetBaseDamage() +
-		head.GetBaseDamage() +
-		feet.GetBaseDamage() +
-		chest.GetBaseDamage()
+
+	return equipment.GetBaseDamage()
 }
