@@ -26,25 +26,20 @@ func max(a int32, b int32) int32 {
 }
 
 func (p Player) getSoak(other Target, totalDamage int32) int32 {
-	soak := int32(0)
-
 	_, ok := other.(Player)
+
 	if ok {
 		// TODO: Not implemented yet
 		// Add friendly fire
-		soak = totalDamage
+		return totalDamage
 	} else {
 		simpleEnemy, ok := other.(SimpleEnemy)
 		if ok {
-			sum := 0.0
-			for _, buff := range simpleEnemy.GetBuffs() {
-				sum += buff.SoakModifier()
-			}
-			soak = int32(math.Round(float64(simpleEnemy.GetArmor().GetDamageSoak()) * (sum + 1.0)))
+			return simpleEnemy.GetSoak()
 		}
 	}
 
-	return soak
+	return int32(0)
 }
 
 func (p Player) getTotalDamage() int32 {
