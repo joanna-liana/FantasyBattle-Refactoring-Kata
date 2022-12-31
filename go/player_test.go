@@ -2,29 +2,70 @@ package codingdojo
 
 import (
 	"testing"
-	// "github.com/stretchr/testify/assert"
 )
 
-// choose this one if you are familiar with mocks
-func TestDamageCalculationsWithMocks(t *testing.T) {
-	t.Skip("Test is not finished yet")
-	// inventory := mockInventory()
-	// stats := mockStats()
-	// target := mockSimpleEnemy()
-
-	// damage := MakePlayer(inventory, stats).CalculateDamage(target)
-
-	// assert.EqualValues(t, 10, damage.GetAmount())
-}
-
-// choose this one if you are not familiar with mocks
 func TestDamageCalculations(t *testing.T) {
-	t.Skip("Test is not finished yet")
-	// inventory := MakeInventory(/* TODO */)
-	// stats := MakeStats(0)
-	// target := MakeSimpleEnemy(/* TODO */, /* TODO */)
+	t.Run("low soak", func(t *testing.T) {
+		// given
+		item := MakeBasicItem("test", 10, 1.2)
+		inventory := MakeInventory(MakeEquipment(item, item, item, item, item))
+		stats := MakeStats(0)
 
-	// damage := MakePlayer(inventory, stats).CalculateDamage(target)
+		target := MakeSimpleEnemy(MakeSimpleArmor(2), []Buff{MakeBasicBuff(2.20, 40)})
+		player := MakePlayer(inventory, stats)
 
-	// assert.EqualValues(t, 10, damage.GetAmount())
+		// when
+		damage := player.CalculateDamage(target)
+
+		// then
+		want := int32(294)
+		got := damage.GetAmount()
+
+		if want != got {
+			t.Fatalf("Expected %v, got %v", want, got)
+		}
+	})
+
+	t.Skip("high soak", func(t *testing.T) {
+		// given
+		item := MakeBasicItem("test", 10, 1.2)
+		inventory := MakeInventory(MakeEquipment(item, item, item, item, item))
+		stats := MakeStats(0)
+
+		target := MakeSimpleEnemy(MakeSimpleArmor(200), []Buff{MakeBasicBuff(2.20, 40)})
+		player := MakePlayer(inventory, stats)
+
+		// when
+		damage := player.CalculateDamage(target)
+
+		// then
+		want := int32(0)
+		got := damage.GetAmount()
+
+		if want != got {
+			t.Fatalf("Expected %v, got %v", want, got)
+		}
+	})
+
+	t.Run("player enemy", func(t *testing.T) {
+		// given
+		item := MakeBasicItem("test", 10, 1.2)
+		inventory := MakeInventory(MakeEquipment(item, item, item, item, item))
+		stats := MakeStats(0)
+
+		target := MakePlayer(inventory, stats)
+		player := MakePlayer(inventory, stats)
+
+		// when
+		damage := player.CalculateDamage(target)
+
+		// then
+		want := int32(0)
+		got := damage.GetAmount()
+
+		if want != got {
+			t.Fatalf("Expected %v, got %v", want, got)
+		}
+	})
+
 }
