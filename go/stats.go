@@ -13,3 +13,7 @@ func MakeStats(strength int32) Stats {
 func (s Stats) GetStrength() int32 {
 	return s.strength
 }
+
+func (s Stats) GetDamageModifier() float64 {
+	return float64(s.GetStrength()) * 0.1
+}

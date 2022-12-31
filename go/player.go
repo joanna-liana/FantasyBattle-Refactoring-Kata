@@ -47,15 +47,9 @@ func (p Player) getSoak(other Target, totalDamage int32) int32 {
 	return soak
 }
 
-func (p Player) getDamageModifier() float64 {
-	strengthModifier := float64(p.stats.GetStrength()) * 0.1
-
-	return strengthModifier + p.inventory.GetDamageModifier()
-}
-
 func (p Player) getTotalDamage() int32 {
 	baseDamage := p.inventory.GetBaseDamage()
-	damageModifier := p.getDamageModifier()
+	damageModifier := p.stats.GetDamageModifier() + p.inventory.GetDamageModifier()
 
 	return int32(math.Round(float64(baseDamage) * damageModifier))
 }
