@@ -53,12 +53,8 @@ func (p Player) getDamageModifier() float64 {
 	return strengthModifier + p.inventory.GetDamageModifier()
 }
 
-func (p Player) getBaseDamage() int32 {
-	return p.inventory.GetBaseDamage()
-}
-
 func (p Player) getTotalDamage() int32 {
-	baseDamage := p.getBaseDamage()
+	baseDamage := p.inventory.GetBaseDamage()
 	damageModifier := p.getDamageModifier()
 
 	return int32(math.Round(float64(baseDamage) * damageModifier))
