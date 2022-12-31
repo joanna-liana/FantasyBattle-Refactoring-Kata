@@ -20,13 +20,11 @@ func (e SimpleEnemy) GetArmor() Armor {
 }
 
 func (e SimpleEnemy) GetSoak() int32 {
-	soak := int32(0)
-
 	sum := 0.0
+
 	for _, buff := range e.GetBuffs() {
 		sum += buff.SoakModifier()
 	}
-	soak = int32(math.Round(float64(e.GetArmor().GetDamageSoak()) * (sum + 1.0)))
 
-	return soak
+	return int32(math.Round(float64(e.GetArmor().GetDamageSoak()) * (sum + 1.0)))
 }
