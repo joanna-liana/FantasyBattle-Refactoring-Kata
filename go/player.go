@@ -13,7 +13,7 @@ func MakePlayer(inventory Inventory, stats Stats) Player {
 
 func (p Player) CalculateDamage(other Target) Damage {
 	totalDamage := p.getTotalDamage()
-	soak := p.getSoak(other, totalDamage)
+	soak := other.GetSoak()
 
 	return MakeDamage(max(0, totalDamage-soak))
 }
@@ -25,21 +25,10 @@ func max(a int32, b int32) int32 {
 	return b
 }
 
-func (p Player) getSoak(other Target, totalDamage int32) int32 {
-	_, ok := other.(Player)
-
-	if ok {
-		// TODO: Not implemented yet
-		// Add friendly fire
-		return totalDamage
-	} else {
-		simpleEnemy, ok := other.(SimpleEnemy)
-		if ok {
-			return simpleEnemy.GetSoak()
-		}
-	}
-
-	return int32(0)
+func (p Player) GetSoak() int32 {
+	// TODO: Not implemented yet
+	// Add friendly fire
+	return p.getTotalDamage()
 }
 
 func (p Player) getTotalDamage() int32 {
